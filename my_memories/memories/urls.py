@@ -6,5 +6,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('makememories/', views.make_memories, name='makememories'),
+    path('', views.home, name='home'),
+    path('map/', views.map_, name='map'),
+    path('login/', views.login, name='login'),
 ]

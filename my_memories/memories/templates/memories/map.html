@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<base target="_top">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
+	<link rel="icon" href="{% static 'memories/img/logo.png' %}">
+
+	<title>Make Memories</title>
+
+    <link 
+	rel="stylesheet" 
+	href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+	integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+	crossorigin=""/>
+
+    <script 
+	src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+	integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+	crossorigin=""></script>
+    
+	<link 
+	rel="stylesheet" 
+	href="{% static 'memories/css/map.css' %}"/>
+</head>
+<body>
+
+<div id="map" style="width: 100%; height: 100%;"></div>
+
+
+<script>
+	{% if not memories %}
+	const map = L.map('map').setView([10.763612, 106.694412], 13);
+	{% else %}
+	const map = L.map('map').setView([{{ memories.0.latitude }}, {{ memories.0.longitude }}], 13);
+	{% endif %}
+
+	const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 19,
+		attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+	}).addTo(map);
+
+	{% for memory in memories%}
+	L.marker([{{ memory.latitude }}, {{ memory.longitude }}]).addTo(map)
+		.bindPopup(`
+		<b>{{ memory.name }}</b>
+		<br/>
+		<p style={max-width=300px; word-wrap: break;}>{{ memory.memory }}</p>
+		<br/>
+		<small>{{ memory.date }}</small>`)
+		.openPopup();
+	{% endfor %}
+
+	const popup = L.popup();
+
+	function onMapClick(e) {
+		popup
+			.setLatLng(e.latlng)
+			.setContent(`
+			<div class="card">
+				<div class="card-body">
+					<h2 class="text-center mb-4">` + e.latlng.lat.toFixed(6) + ` - ` + e.latlng.lng.toFixed(6) + `</h2>
+					<form method="post">
+						{% csrf_token %}
+						<input type="hidden" id="latitude-2" name="latitude" value="` + e.latlng.lat.toFixed(6) + `">
+						<input type="hidden" id="longitude-2" name="longitude" value="` + e.latlng.lng.toFixed(6) + `">
+						<input class="form-control" type="text" id="name-2" name="name" placeholder="Name">
+						<textarea class="form-control" id="message-2" name="memory" rows="6" placeholder="Memory"></textarea>
+						<button class="btn btn-primary d-block w-100" type="submit">Save</button>
+					</form>
+				</div>
+			</div>
+			`)
+			.openOn(map);
+	}
+
+	map.on('click', onMapClick);
+
+</script>
+</body>
+</html>

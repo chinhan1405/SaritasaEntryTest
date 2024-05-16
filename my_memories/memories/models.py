@@ -14,5 +14,17 @@ class Place(models.Model):
     memory = models.TextField()
     date = models.DateField()
 
+    objects = models.Manager()
+
     def __str__(self):
         return str(self.name)
+
+    @staticmethod
+    def find_by_account(account):
+        '''Find all places by account.'''
+        return Place.objects.filter(account=account)
+
+    @staticmethod
+    def find_all():
+        '''Find all places.'''
+        return Place.objects.all()

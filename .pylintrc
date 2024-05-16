@@ -1,2 +1,0 @@
-[MASTER]
-ignored_patterns = - 'migrations/*.py'

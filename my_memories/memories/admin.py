@@ -8,7 +8,7 @@ from .models import Place
 
 class PlaceMemoryAdmin(admin.ModelAdmin):
     '''The admin class for the PlaceMemory model.'''
-    list_display = ('name', 'latitude', 'longitude')
-    search_fields = ('name', 'memory')
+    list_display = ('account', 'name', 'latitude', 'longitude')
+    search_fields = ('name', 'account__username')
 
 admin.site.register(Place, PlaceMemoryAdmin)
