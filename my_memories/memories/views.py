@@ -37,4 +37,6 @@ def map_(request: HttpRequest):
 
 def login(request: HttpRequest):
     '''The view for the login page.'''
+    if request.user.is_authenticated:
+        return HttpResponseRedirect('/')
     return render(request, 'memories/login.html')
