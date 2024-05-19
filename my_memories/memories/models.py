@@ -2,6 +2,7 @@
 The models for places' memories.
 """
 
+import datetime
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -28,3 +29,15 @@ class Place(models.Model):
     def find_all():
         '''Find all places.'''
         return Place.objects.all()
+
+    @staticmethod
+    def create_memory(account, longitude: float, latitude: float, name: str, memory:str):
+        '''Create a memory.'''
+        place = Place()
+        place.account = account
+        place.longitude = longitude
+        place.latitude = latitude
+        place.name = name
+        place.memory = memory
+        place.date = datetime.datetime.now()
+        place.save()

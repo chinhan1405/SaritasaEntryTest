@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -18,9 +19,9 @@
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><span>My Memories</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-5"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navcol-5">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item align-self-center"><img class="border rounded-circle" style="width: 2rem;height: 2rem;"></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">{{ username }}</a></li>
-                </ul><a class="btn btn-primary ms-md-2" role="button" href="#">Log out</a>
+                    <li class="nav-item align-self-center"><img class="border rounded-circle" style="width: 2rem;height: 2rem;" src="{{ user.socialaccount_set.all.0.get_avatar_url }}"></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">{{ user.socialaccount_set.all.0.extra_data.name }}</a></li>
+                </ul><a class="btn btn-primary ms-md-2" role="button" href="{% url 'logout' %}">Log out</a>
             </div>
         </div>
     </nav>
@@ -30,7 +31,9 @@
             <div class="col-md-12 text-center d-flex d-sm-flex d-md-flex justify-content-center align-items-center mx-auto justify-content-md-start align-items-md-center justify-content-xl-center">
                 <div>
                     <h1 class="text-uppercase fw-bold mb-3" style="font-size: 40px;">You have no memories&nbsp;</h1>
-                    <p class="mb-4" style="font-size: 30px;"></p><button class="btn btn-primary fs-5 me-2 py-2 px-4" type="button">ADD A MEMORIES</button>
+                    <a href="/map/">
+                        <p class="mb-4" style="font-size: 30px;"></p><button class="btn btn-primary fs-5 me-2 py-2 px-4" type="button">ADD A MEMORIES</button>
+                    </a>
                 </div>
             </div>
         </div>
