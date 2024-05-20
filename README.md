@@ -13,37 +13,19 @@ The application only requires Google Authentication to use.
 pip install -r requirements.txt
 ```
 
-2. Migrate models and create database
+2. Add .env file base on .env.example
+
+3. Migrate models and create database
 
 ```
+py my_memories/manage.py makemigrations
 py my_memories/manage.py migrate
 ```
 
-3. Run server on 127.0.0.1:8000
+4. Run server on 127.0.0.1:8000
 
 ```
 py my_memories/manage.py runserver
-```
-
-# RELEASE BUILD
-
-1. Install all the required library in requirements.txt
-
-```
-pip install -r requirements.txt
-```
-
-2. Migrate models and create database
-
-```
-py my_memories/manage.py migrate
-```
-
-3. Run server on 127.0.0.1:8000
-
-```
-cd my_memories
-uvicorn my_memories.asgi:application
 ```
 
 # REFERENCE
